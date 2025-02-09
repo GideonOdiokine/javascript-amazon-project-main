@@ -49,7 +49,8 @@ products.forEach((product) => {
           </div>
 
           <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name="${
-            product.name}" data-product-id="${product.id}">Add to Cart</button>
+            product.name
+          }" data-product-id="${product.id}">Add to Cart</button>
         </div>`;
 });
 
@@ -73,11 +74,16 @@ addToCartButtons.forEach((button) => {
       matchingItem.quantity++;
     } else {
       cart.push({
-         productId,
+        productId,
         productName,
         quantity: 1,
       });
     }
-    console.log(cart)
+
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+    document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
 });
