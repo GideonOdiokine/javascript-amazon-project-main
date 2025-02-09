@@ -80,10 +80,10 @@ addToCartButtons.forEach((button) => {
       });
     }
 
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
+    let cartQuantity = cart.reduce((acc, item) => {
+      return (acc = acc + item.quantity);
+    }, 0);
+
     document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
 });
