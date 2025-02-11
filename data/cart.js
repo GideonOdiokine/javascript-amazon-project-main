@@ -20,6 +20,7 @@ export function addToCart(productId, productName) {
       productId,
       productName,
       quantity: 1,
+      deliveryOptionId:"1"
     });
   }
   saveToStorage()
