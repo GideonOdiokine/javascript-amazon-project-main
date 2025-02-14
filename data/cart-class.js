@@ -1,11 +1,12 @@
 class Cart {
+    #localStorageKey;
   constructor(localStorageKey) {
     this.cartItems = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-    this.localStorageKey = localStorageKey;
+    this.#localStorageKey = localStorageKey;
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
   addToCart(productId, productName) {
     let matchingItem;
@@ -66,6 +67,7 @@ normalCart.addToCart(
   "54e0eccd-8f36-462b-b68a-8182611d9add",
   "2 Slot Toaster - Black"
 );
+
 console.log(cart)
 console.log(normalCart)
 
