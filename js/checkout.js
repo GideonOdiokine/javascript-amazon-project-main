@@ -5,29 +5,32 @@ import { formatCurrency } from "./utils/money.js";
 
 const today = dayjs();
 
-let cartSummaryHTML = "";
+// let cartSummaryHTML = "";
 
-cart.forEach((cartItem) => {
-  const productId = cartItem.productId;
-  let matchingProduct;
-  let matchingId;
+function renderOrderSummary(){
+  let cartSummaryHTML = ""; // Reset HTML before re-rendering
 
-  products.forEach((product) => {
-    if (product.id === productId) {
-      matchingProduct = product;
-    }
-  });
+  cart.forEach((cartItem) => {
+    const productId = cartItem.productId;
+    let matchingProduct;
+    let matchingId;
 
-  let deliveryOptionId = cartItem.deliveryOptionId;
-  deliveryOptions.forEach((option) => {
-    if (deliveryOptionId === option.id) {
-      matchingId = option;
-    }
-  });
+    products.forEach((product) => {
+      if (product.id === productId) {
+        matchingProduct = product;
+      }
+    });
 
-  cartSummaryHTML += `<div class="cart-item-container js-cart-item-container-${
-    matchingProduct.id
-  }">
+    let deliveryOptionId = cartItem.deliveryOptionId;
+    deliveryOptions.forEach((option) => {
+      if (deliveryOptionId === option.id) {
+        matchingId = option;
+      }
+    });
+
+    cartSummaryHTML += `<div class="cart-item-container js-cart-item-container-${
+      matchingProduct.id
+    }">
             <div class="delivery-date">Delivery date: ${today
               .add(matchingId.deliveryDate, "days")
               .format("dddd, MMM D")}</div>
@@ -70,7 +73,10 @@ cart.forEach((cartItem) => {
               </div>
             </div>
           </div>`;
-});
+  });
+  document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+}
+renderOrderSummary();
 
 function deliveryOptionHTML(productId, cartItem) {
   let deliveryOptionOutput = "";
@@ -102,7 +108,7 @@ function deliveryOptionHTML(productId, cartItem) {
 
 
 
-document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delivery-option-input")) {
@@ -110,6 +116,7 @@ document.addEventListener("click", (event) => {
     const deliveryOptionId = event.target.dataset.deliveryOptionId;
 
     updateDeliveryOption(productId, deliveryOptionId);
+    renderOrderSummary()
   }
 });
 document.querySelectorAll(".js-delete-link").forEach((link) => {
