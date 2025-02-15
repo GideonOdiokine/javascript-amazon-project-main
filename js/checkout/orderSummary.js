@@ -5,7 +5,6 @@ import { formatCurrency } from "../utils/money.js";
 
 const today = dayjs();
 
-// let cartSummaryHTML = "";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = ""; // Reset HTML before re-rendering
@@ -111,15 +110,21 @@ document.addEventListener("click", (event) => {
     updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
   }
-});
-document.querySelectorAll(".js-delete-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const productId = link.dataset.productId;
-    removeFromCart(productId);
 
-    const container = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-    container.remove();
-  });
+   if (event.target.classList.contains("js-delete-link")) {
+     const productId = event.target.dataset.productId;
+     removeFromCart(productId);
+     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+   }
 });
+// document.querySelectorAll(".js-delete-link").forEach((link) => {
+//   link.addEventListener("click", () => {
+//     const productId = link.dataset.productId;
+//     removeFromCart(productId);
+
+//     const container = document.querySelector(
+//       `.js-cart-item-container-${productId}`
+//     );
+//     container.remove();
+//   });
+// });
