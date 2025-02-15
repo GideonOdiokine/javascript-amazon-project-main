@@ -2,9 +2,9 @@ import { cart, removeFromCart, updateDeliveryOption } from "../../data/cart.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 const today = dayjs();
-
 
 export function renderOrderSummary() {
   let cartSummaryHTML = ""; // Reset HTML before re-rendering
@@ -109,13 +109,15 @@ document.addEventListener("click", (event) => {
 
     updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
+    renderPaymentSummary();
   }
 
-   if (event.target.classList.contains("js-delete-link")) {
-     const productId = event.target.dataset.productId;
-     removeFromCart(productId);
-     document.querySelector(`.js-cart-item-container-${productId}`).remove();
-   }
+  if (event.target.classList.contains("js-delete-link")) {
+    const productId = event.target.dataset.productId;
+    removeFromCart(productId);
+    renderPaymentSummary();
+    document.querySelector(`.js-cart-item-container-${productId}`).remove();
+  }
 });
 // document.querySelectorAll(".js-delete-link").forEach((link) => {
 //   link.addEventListener("click", () => {
