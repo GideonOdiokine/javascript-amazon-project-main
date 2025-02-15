@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from "../data/cart.js";
+import { cart, removeFromCart, updateDeliveryOption } from "../data/cart.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
@@ -76,12 +76,14 @@ function deliveryOptionHTML(productId, cartItem) {
   let deliveryOptionOutput = "";
 
   deliveryOptions.forEach((option, index) => {
-    deliveryOptionOutput += `<div class="delivery-option">
+    deliveryOptionOutput += `<div class="delivery-option js-deliver-option">
                   <input
                     type="radio"
                     ${option.id === cartItem.deliveryOptionId ? "checked" : ""}
                     class="delivery-option-input"
                     name="delivery-option-${productId}"
+                    data-product-id="${productId}"
+                    data-delivery-option-id="${option.id}"
                   />
                   <div>
                     <div class="delivery-option-date">${today
@@ -98,8 +100,18 @@ function deliveryOptionHTML(productId, cartItem) {
   return deliveryOptionOutput;
 }
 
+
+
 document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("delivery-option-input")) {
+    const productId = event.target.dataset.productId;
+    const deliveryOptionId = event.target.dataset.deliveryOptionId;
+
+    updateDeliveryOption(productId, deliveryOptionId);
+  }
+});
 document.querySelectorAll(".js-delete-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
