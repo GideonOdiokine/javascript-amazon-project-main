@@ -541,4 +541,4 @@ export const products = [
   product.type === "clothing" ? new Clothing(product) : new Product(product)
 );
 
-console.log(products)
+// console.log(products)
