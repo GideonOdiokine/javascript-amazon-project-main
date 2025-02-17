@@ -1,10 +1,13 @@
 import { addToCart, cart } from "../data/cart.js";
-import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
+import { loadProducts, products } from "../data/products.js";
 
-let productsHTML = ``;
-products.forEach((product) => {
-  productsHTML += `<div class="product-container">
+
+loadProducts(renderProductsGrid);
+
+function renderProductsGrid(){
+    let productsHTML = ``;
+    products.forEach((product) => {
+      productsHTML += `<div class="product-container">
           <div class="product-image-container">
             <img
               class="product-image"
@@ -56,27 +59,30 @@ products.forEach((product) => {
             product.name
           }" data-product-id="${product.id}">Add to Cart</button>
         </div>`;
-});
+    });
 
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
+    document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-function updateCartQuantity() {
-  let cartQuantity = cart.reduce((acc, cartItem) => {
-    return (acc = acc + cartItem.quantity);
-  }, 0);
+    function updateCartQuantity() {
+      let cartQuantity = cart.reduce((acc, cartItem) => {
+        return (acc = acc + cartItem.quantity);
+      }, 0);
 
-  document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+      document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+    }
+
+    const addToCartButtons = document.querySelectorAll(".js-add-to-cart");
+
+    addToCartButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const productName = button.dataset.productName;
+        const productId = button.dataset.productId;
+
+        addToCart(productId, productName);
+
+        updateCartQuantity();
+      });
+    });
 }
 
-const addToCartButtons = document.querySelectorAll(".js-add-to-cart");
 
-addToCartButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const productName = button.dataset.productName;
-    const productId = button.dataset.productId;
-
-    addToCart(productId, productName);
-
-    updateCartQuantity();
-  });
-});
