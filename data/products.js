@@ -542,3 +542,16 @@ export const products = [
 );
 
 // console.log(products)
+
+// console.log(this);
+
+// const obj = {
+//   a: 3,
+//   method() {
+//     console.log(this);
+//     [(1, 2, 3)].forEach(()=> {
+//       console.log(this);
+//     });
+//   },
+// };
+// obj.method()
